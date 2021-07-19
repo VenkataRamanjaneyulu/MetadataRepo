@@ -1,0 +1,25 @@
+<template>
+    <div class="slds-p-around_medium lgc-bg">
+        <lightning-card title="Asset Hierarchy" >
+            <div class="slds-m-bottom_small" slot="actions">
+                <lightning-button
+                    label="Collapse All"
+                    variant="brand"
+                    onclick={clickToCollapseAll}>
+                </lightning-button>
+                <lightning-button
+                    class="slds-var-m-left_medium"
+                    label="Expand All"
+                    variant="brand"
+                    onclick={clickToExpandAll}>
+                </lightning-button>           
+            </div>
+        
+            <lightning-tree-grid    columns = {gridColumns}
+                                    data = {gridData}
+                                    key-field = "Id"
+                                    hide-checkbox-column = true>
+            </lightning-tree-grid>
+        </lightning-card>
+    </div>   
+</template>

@@ -1,0 +1,50 @@
+<template>
+    <!--When no error-->
+    <template  if:false={error}>
+        <!--when fields selected-->
+        <lightning-card title="Records Fetched">
+            <template if:true={objectApiName}>
+                
+                    <!--During loading-->
+                    <template  if:true={isLoading} 
+                        style="position:relative" 
+                        class="spinner-padding">
+                        <lightning-spinner   variant="brand" 
+                                            alternative-text="Loading Data.."     
+                                            size="medium">
+                        </lightning-spinner>
+                    </template>   
+                    <!--After loading-->
+                    <template   if:false={isLoading} >
+                        <!--if data exists-->
+                        <template if:true={showRecords}>
+                            <lightning-datatable 
+                                            key-field="Id"
+                                            data={data}
+                                            columns={columns}
+                            >
+                            </lightning-datatable> 
+                        </template>
+                        <!--if no data exists-->
+                        <template if:false={showRecords}>
+                            <p>No Data Found!</p>
+                        </template>
+                    </template>   
+                
+            </template>
+            <!--when fields not selected-->
+            <template if:false={objectApiName}>
+                <lightning-card title="Select Object!">
+                <h3 class="slds-var-m-around_medium">
+                        Please select fields in order to see the records!.
+                </h3>
+                </lightning-card>
+            </template> 
+        </lightning-card>
+                                                                    
+    </template>   
+    <!--When error-->
+    <template if:true={error}>
+         <p>{error}</p>
+    </template>
+</template>

@@ -1,0 +1,76 @@
+<template>
+    <lightning-card title="Object Metadata Component!" icon-name="custom:custom14">
+        <template if:true={_showExport}>
+            <lightning-button
+                  variant="brand"
+                  label="Export Objects"
+                  title="Export Objects"
+                  onclick={exportAsCsv}
+                  slot="actions"
+                  icon-name="action:download"
+                  >
+            </lightning-button>
+        </template>
+        <div class="slds-var-m-horizontal_small">
+            <div >
+               <lightning-layout>
+                  <lightning-layout-item flexibility="auto">
+                     <lightning-combobox
+                        name="progress"
+                        label="Select Type of Object"
+                        value={objectTypeToFetch}
+                        options={options}
+                        onchange={handleChange}
+                        required >
+                     </lightning-combobox>
+                  </lightning-layout-item> 
+                  <lightning-layout-item flexibility="auto">
+                        <lightning-input type="text" 
+                           label="Search with LabelName" 
+                           onkeyup={handleSearch} 
+                           placeholder="Type min of 3 chars" 
+                           class="slds-var-m-left_medium"
+                           >
+                        </lightning-input>
+                  </lightning-layout-item>
+                  <lightning-layout-item flexibility="auto">
+                        <lightning-input  type="number" 
+                           name="Number of Objects" 
+                           disabled 
+                           value={countOfObjects} 
+                           label="Count of Objects" 
+                           class="slds-var-m-left_medium">
+                        </lightning-input>
+                  </lightning-layout-item>
+               </lightning-layout>       
+            </div>
+            <div class="slds-var-m-vertical_large">          
+                  <div  if:true={isLoading} 
+                        style="position:relative" 
+                        class="spinner-padding">
+                     <lightning-spinner   variant="brand" 
+                                          alternative-text="Loading Data.."     
+                                          size="medium">
+                     </lightning-spinner>
+                  </div>
+                  <div  if:false={isLoading} 
+                        style="height:200px;">
+                     <template if:true={filteredRows}>
+                           <lightning-datatable
+                                 key-field="ApiName"
+                                 data={filteredRows}
+                                 columns={columns}
+                                 onrowaction={handleRowAction}
+                                 hide-checkbox-column
+                                 show-row-number-column="true"
+                                 >
+                           </lightning-datatable> 
+                     </template> 
+                     <template if:true={error}>
+                              <p class="slds-var-m-around_medium">An error occured while fetching the data!</p>
+                     </template>           
+                  </div>    
+            </div> 
+        </div>
+    </lightning-card>    
+</template>

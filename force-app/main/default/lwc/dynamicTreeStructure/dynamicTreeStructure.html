@@ -1,0 +1,12 @@
+<template>
+   <lightning-card title="Tree Components with mutliple nested Accounts">
+     <div class="slds-m-top_medium slds-m-bottom_x-large">
+       <!-- Simple -->
+       <template if:true={accounts.data}>
+         <div class="slds-p-around_medium lgc-bg">
+           <lightning-tree items={accounts.data} header="Accounts"></lightning-tree>
+         </div>
+       </template>
+     </div>
+   </lightning-card>
+ </template>

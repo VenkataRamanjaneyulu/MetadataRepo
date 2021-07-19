@@ -1,0 +1,150 @@
+<template>
+   <lightning-card
+     title="Account Search"
+     icon-name="custom:icon13"
+   >
+     <div class="slds slds-p-horizontal--medium">
+       <div class="slds-grid slds-wrap">
+         <div class="slds-col slds-size_4-of-12 slds-m-bottom--medium">
+           <lightning-Input
+             type="search"
+             placeholder="Search..."
+             value={accountName}
+             name="accountName"
+             class="accountName"
+             onchange={handleChange}
+           ></lightning-Input>
+         </div>
+         <div
+           class="slds-col slds-size_6-of-12 slds-m-top--medium"
+           style="margin-top: 19px; margin-left: 10px"
+         >
+           <lightning-button
+             label="Search"
+             variant="brand"
+             onclick={handleAccountSearch}
+             icon-name="utility:search"
+             icon-position="left"
+           ></lightning-button>
+         </div>
+       </div>
+ 
+       <h2>
+         Account Name :- <span><strong>{currentAccountName}</strong></span>
+       </h2>
+       <br />
+       <h3>
+         <strong><span style="color: brown">{dataNotFound}</span></strong>
+       </h3>
+       <br />
+ 
+       <h2
+         class="slds-m-bottom--x-small"
+         style="color: darkslateblue; font-weight: bold"
+       >
+         Displaying Account Records based on Account Name
+       </h2>
+       <table
+         class="slds-table slds-table_cell-buffer slds-table_bordered"
+         border="1"
+         cellspacing="0"
+         cellpadding="0"
+         style="border-collapse: collapse"
+       >
+         <thead>
+           <tr>
+             <th>Checkbox</th>
+             <th>Id</th>
+             <th>Name</th>
+             <th>Website</th>
+           </tr>
+         </thead>
+         <tbody>
+           <template for:each={records} for:item="accItem">
+             <tr key={accItem.Id}>
+               <td>
+                 <lightning-input
+                   type="radio"
+                   name="radioButtonSelect"
+                   value={accItem.Id}
+                   onchange={handleChangeRadio}
+                 ></lightning-input>
+               </td>
+               <td>{accItem.Id}</td>
+               <td>{accItem.Name}</td>
+               <td>{accItem.Website}</td>
+             </tr>
+           </template>
+         </tbody>
+       </table>
+     </div>
+   </lightning-card>
+   <template if:true={showContactForm}>
+     <lightning-card title="Create Contact" icon-name="standard:record">
+       <div class="slds-var-m-around_medium">
+         <lightning-input
+           label="Id"
+           name="id"
+           disabled
+           data-id="accountId"
+           value={accId}
+         ></lightning-input>
+         <lightning-input
+           label="Title"
+           name="title"
+           onchange={handleChange}
+           type="text"
+           placeholder="Title"
+           class="slds-var-m-bottom_x-small"
+         ></lightning-input>
+         <lightning-input
+           label="First Name"
+           name="fName"
+           onchange={handleChange}
+           type="text"
+           placeholder="First Name"
+         ></lightning-input>
+         <lightning-input
+           label="Last Name"
+           name="lName"
+           required
+           type="text"
+           placeholder="Last Name"
+           onchange={handleChange}
+         ></lightning-input>
+         <lightning-input
+           label="Salutation"
+           name="salutation"
+           type="text"
+           placeholder="Salutation"
+           onchange={handleChange}
+         ></lightning-input>
+         <lightning-input
+           label="Birthday"
+           name="birthday"
+           type="date"
+           placeholder="Birthday"
+           onchange={handleChange}
+         ></lightning-input>
+         <lightning-input
+           label="Email"
+           name="email"
+           type="email"
+           placeholder="Email"
+           onchange={handleChange}
+         ></lightning-input>
+       </div>
+     </lightning-card>
+     <div class="slds-form-element buttons slds-text-align_center">
+       <template if:true={showCreateButton}>
+         <lightning-button
+           label="Create Contact"
+           type="submit"
+           variant="brand"
+           onclick={createContact}
+         ></lightning-button>
+       </template>
+     </div>
+   </template>
+ </template>
+ 

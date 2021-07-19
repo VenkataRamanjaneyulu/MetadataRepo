@@ -1,0 +1,127 @@
+<template>
+   <template if:false={error}>
+      <template if:true={objectApiName}>
+         <lightning-card title={objectName}>
+            <template if:true={_showExport}>
+               <lightning-button
+                     variant="brand"
+                     label="Export Fields"
+                     title="Export Fields"
+                     onclick={exportData}
+                     slot="actions"
+                     icon-name="action:download"
+                     >
+               </lightning-button>
+            </template> 
+                  
+            <div class="slds-var-m-horizontal_small">
+                  <!--Filtering Div-->
+                  <div >
+                        <lightning-layout>
+                           <lightning-layout-item flexibility="auto">          
+                                 <lightning-input type="text" 
+                                                label="Type here to Search" 
+                                                placeholder="Type min of 3 chars"
+                                                onkeyup={search}
+                                                >
+                                 </lightning-input>                  
+                           </lightning-layout-item>
+                           <lightning-layout-item flexibility="auto">
+                                 <lightning-combobox
+                                 name="FilterByDataType"
+                                 label="Filter By Data-Type"
+                                 value={choosenDataType}
+                                 options={options}
+                                 onchange={handleChange}
+                                 class="slds-var-m-left_medium"
+                                 >
+                              </lightning-combobox>
+                           </lightning-layout-item>
+                           <lightning-layout-item flexibility="auto">
+                              <lightning-input  type="number" 
+                                 name="Number of Fields" 
+                                 disabled 
+                                 value={countOfFields} 
+                                 label="Count of Fields" 
+                                 class="slds-var-m-left_medium">
+                              </lightning-input>
+                        </lightning-layout-item>    
+                        </lightning-layout>
+                  </div>
+                  <!--Selected Fields-->
+                  <div class="slds-var-m-vertical_large">
+                     <lightning-textarea 
+                           name="SelectedFields"
+                           value={selectedFieldsValue}
+                           label="Selected Fields" 
+                           readonly>
+                     </lightning-textarea>
+                     <template if:true={selectedFieldsValue}>
+                        <lightning-button variant="brand" 
+                                          label="Retrieve Records" 
+                                          title="Retrieve Records" 
+                                          onclick={handleRetrieveRecords} 
+                                          class="slds-m-left_x-small"
+                                          
+                                          >
+                        </lightning-button>
+                        <lightning-button    variant="brand" 
+                                             label="Reset" 
+                                             title="Reset" 
+                                             onclick={handleResetSelection} 
+                                             class="slds-m-left_x-small"
+                                             
+                                             >
+                        </lightning-button>
+                     </template>
+                  </div>  
+                  <!--Data Table Div-->
+                  <div class="slds-var-m-vertical_large">
+                     <template  if:true={isLoading} 
+                           style="position:relative" 
+                           class="spinner-padding">
+                           <lightning-spinner   variant="brand" 
+                                                alternative-text="Loading Data.."     
+                                                size="medium">
+                           </lightning-spinner>
+                     </template>
+                     <!--Data Table-->
+                     <template if:false={isLoading}>                 
+                           <template if:true={filteredRows}>
+                              <div style="height:350px;">      
+                                 <lightning-datatable
+                                                key-field="apiName"
+                                                data={filteredRows}
+                                                columns={columns}
+                                                onrowselection={handleRowAction}
+                                                >
+                                 </lightning-datatable> 
+                              </div>             
+                           </template>          
+                     </template>                 
+                  </div>   
+            </div> 
+            <div>
+               <c-retrieve-records-component object-api-name={objectApiNameToRecords} 
+                                             field-api-names={selectedFieldsValue}
+                                             columns={items}
+                                             number-of-records={maxNumOfRecords}>    
+               </c-retrieve-records-component>
+            </div>
+                 
+         </lightning-card> 
+      </template> 
+      <template if:false={objectApiName}>
+         <lightning-card title="Select Object!">
+            <h3 class="slds-var-m-around_medium">
+                  Please select an Object in order to see the fields.
+            </h3>
+         </lightning-card>
+      </template>  
+   </template>
+   <template if:true={error}>
+      <lightning-card title="Error Occured!" icon-name="action:bug">
+         <p class="slds-var-m-around_medium">{error}</p>
+      </lightning-card>  
+   </template> 
+</template>
